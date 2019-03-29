@@ -40,7 +40,7 @@ public class Lecture extends NamedEntity {
     @JsonManagedReference
     private Set<Visitor> visitors;
 
-    Lecture() {
+    public Lecture() {
         this.date = LocalDate.now();
     }
 

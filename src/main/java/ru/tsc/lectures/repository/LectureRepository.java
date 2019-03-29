@@ -13,8 +13,8 @@ public interface LectureRepository extends Repository<Lecture, Long> {
 
     Lecture findById(int id) throws DataAccessException;
 
-    Lecture save(Lecture petType) throws DataAccessException;
+    Lecture save(Lecture lecture) throws DataAccessException;
 
-    void delete(Lecture petType) throws DataAccessException;
+    void delete(Lecture lecture) throws DataAccessException;
 
 }
