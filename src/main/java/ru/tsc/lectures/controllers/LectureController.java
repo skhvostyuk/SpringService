@@ -6,6 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.tsc.lectures.model.Lecture;
+import ru.tsc.lectures.model.Visitor;
 import ru.tsc.lectures.repository.LectureRepository;
 
 import java.util.Collection;
@@ -16,8 +17,6 @@ public class LectureController {
     @Autowired
     private LectureRepository lectureRepository;
 
-
-
     @GetMapping("/{lectureId}")
     public ResponseEntity<Lecture> getById(@PathVariable("lectureId") int lectureId) {
         Lecture lecture = lectureRepository.findById(lectureId);
@@ -26,13 +25,21 @@ public class LectureController {
         return new ResponseEntity<Lecture>(lecture, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{lectureId}/delete")
+    @DeleteMapping("/{lectureId}")
     public ResponseEntity<Void> deleteById(@PathVariable("lectureId") int lectureId) {
         Lecture lecture = lectureRepository.findById(lectureId);
         if(lecture == null)
             return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
         lectureRepository.delete(lecture);
         return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/{lectureId}/visitors") // TODO: Имеет ли смысл выделение в отдельный контролле? (И искать можно сразу по базе)
+    public ResponseEntity<Collection<Visitor>> findVisitorsByLectureID(@PathVariable("lectureId") int lectureId) {
+        Lecture lecture = lectureRepository.findById(lectureId);
+        if (lecture.getVisitors().size() == 0)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);   //TODO: Это адекватно? Может, стоит возвращать пустой массив?
+        return new ResponseEntity<>(lecture.getVisitors(), HttpStatus.OK);
     }
 
     @GetMapping("")
