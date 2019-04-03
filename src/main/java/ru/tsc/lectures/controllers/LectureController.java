@@ -48,7 +48,7 @@ public class LectureController {
     public ResponseEntity<Collection<Lecture>> findByParams(@RequestParam(value = "name", required = false) String name,
                                                             @RequestParam(value = "pricefrom", defaultValue  = "0") int minPrice,
                                                             @RequestParam(value = "priceto", defaultValue  = "0") int maxPrice) {
-        if (name != null)
+        if (name != null) //TODO: Некрасиво, есть другие варианты обработки?
             return findByName(name);
         else if (minPrice > 0) {
             if (maxPrice > 0)
@@ -68,7 +68,6 @@ public class LectureController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(lectures, HttpStatus.OK);
     }
-
 
     public ResponseEntity<Collection<Lecture>> findByName(String name) {
         Collection<Lecture> lectures = lectureRepository.findByName(name);

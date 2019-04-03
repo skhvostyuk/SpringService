@@ -6,6 +6,7 @@ import ru.tsc.lectures.model.Visitor;
 
 public interface VisitorRepository extends Repository<Visitor, Integer> {
 
+    Visitor findById(int id) throws DataAccessException;
 
     void save(Visitor petType) throws DataAccessException;
 
