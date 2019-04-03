@@ -8,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -20,8 +21,8 @@ public class Lecture extends NamedEntity {
     private String lecturerName;
 
     @Column(name = "capacity")
-    @NotEmpty
-    private int capacity ;
+    @NotNull
+    private int capacity;
 
     @Column(name = "date")
     @NotEmpty
@@ -39,6 +40,9 @@ public class Lecture extends NamedEntity {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "lecture")
     @JsonManagedReference
     private Set<Visitor> visitors;
+
+    @Column(name = "price")
+    private int price;
 
     public Lecture() {
         this.date = LocalDate.now();
@@ -112,5 +116,13 @@ public class Lecture extends NamedEntity {
 
     public void setDuration(int duration) {
         this.duration = duration;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 }

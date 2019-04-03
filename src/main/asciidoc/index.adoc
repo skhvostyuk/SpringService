@@ -7,7 +7,8 @@ include::{snipp}/lecture-controller-test/get-by-id-test/curl-request.adoc[]
 
 ===== HTTP Request
 include::{snipp}/lecture-controller-test/get-by-id-test/http-request.adoc[]
-
 ===== HTTP Response
 ====== Success HTTP responses
 include::{snipp}/lecture-controller-test/get-by-id-test/http-response.adoc[]
+
+=== Lecture Hall

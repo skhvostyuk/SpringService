@@ -58,6 +58,7 @@ public class LectureControllerTest {
         lecture.setCapacity(20);
         lecture.setDuration(120);
         lecture.setLecturerName("Prof. Tester");
+        lecture.setPrice(1500);
         given(this.repository.findById(TEST_LECTURE_ID)).willReturn(lecture);
         ArrayList<Lecture> list = new ArrayList<>();
         list.add(lecture);
@@ -77,6 +78,15 @@ public class LectureControllerTest {
     @Test
     public void getByNameTest() throws Exception {
         this.mockMvc.perform(get("/api/lecture?name=" + TEST_LECTURE_NAME)
+                .accept(MimeTypeUtils.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].name").value(TEST_LECTURE_NAME));
+    }
+
+
+    @Test
+    public void findByMaxPriceFiler() throws Exception {
+        this.mockMvc.perform(get("/api/lecture?pricefrom=1200&priceto=2000")
                 .accept(MimeTypeUtils.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].name").value(TEST_LECTURE_NAME));

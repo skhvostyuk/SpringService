@@ -1,3 +1,4 @@
+DROP DATABASE lectures;
 CREATE DATABASE IF NOT EXISTS lectures;
 
 ALTER DATABASE lectures
@@ -25,6 +26,7 @@ CREATE TABLE IF NOT EXISTS lectures (
   capacity INT(4) UNSIGNED,
   date DATETIME,
   duration INT(4),
+  price INT UNSIGNED,
   lecture_hall_id INT(4) UNSIGNED NOT NULL,
   FOREIGN KEY (lecture_hall_id) REFERENCES lecture_halls(id),
   INDEX(name)
