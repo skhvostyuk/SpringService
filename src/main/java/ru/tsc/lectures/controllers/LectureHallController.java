@@ -9,7 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 import ru.tsc.lectures.model.LectureHall;
-import ru.tsc.lectures.repository.LectureHallRepository;
+import ru.tsc.lectures.service.LectureHallService;
 
 import javax.validation.Valid;
 import java.util.Collection;
@@ -19,19 +19,19 @@ import java.util.Collection;
 public class LectureHallController extends BaseController<LectureHall> {
 
     @Autowired
-    private LectureHallRepository hallRepository;
+    private LectureHallService hallService;
 
     @GetMapping("/{lectureHallId}")
     public ResponseEntity<LectureHall> getById(@PathVariable("lectureHallId") int lectureHallId) {
-        return nullGetReview(hallRepository.findById(lectureHallId));
+        return nullGetReview(hallService.findById(lectureHallId));
     }
 
     @DeleteMapping("/{lectureHallId}")
     public ResponseEntity<Void> deleteById(@PathVariable("lectureHallId") int lectureHallId) {
-        LectureHall hall = hallRepository.findById(lectureHallId);
+        LectureHall hall = hallService.findById(lectureHallId);
         if (hall == null)
             return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
-        hallRepository.delete(hall);
+        hallService.delete(hall);
         return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
     }
 
@@ -39,7 +39,7 @@ public class LectureHallController extends BaseController<LectureHall> {
     public ResponseEntity<LectureHall> addHall(@Valid @RequestBody LectureHall hall, BindingResult bindingResult, UriComponentsBuilder ucBuilder) {
         if (bindingResult.hasErrors())
             return errorResponseEntity(bindingResult);
-        hallRepository.save(hall);
+        hallService.save(hall);
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/api/hall/{id}").buildAndExpand(hall.getId()).toUri());
         return new ResponseEntity<>(hall, headers, HttpStatus.CREATED);
@@ -52,6 +52,6 @@ public class LectureHallController extends BaseController<LectureHall> {
                                                                 @RequestParam(value = "projector", defaultValue = "0") int projector) {
 
 
-        return emptyGetCollectionReview(hallRepository.findByNameContainingAndPriceBetweenAndProjectorGreaterThanEqual(name, minPrice, maxPrice, projector));
+        return emptyGetCollectionReview(hallService.findByFilter(name, minPrice, maxPrice, projector));
     }
 }

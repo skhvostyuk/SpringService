@@ -1,7 +1,6 @@
 package ru.tsc.lectures.repository;
 
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.repository.Repository;
@@ -21,7 +20,7 @@ public interface LectureRepository extends Repository<Lecture, Long> {
 
     Lecture findById(int id) throws DataAccessException;
 
-    @CachePut(cacheNames = "lectures")
+    @CacheEvict(value = "lectures", allEntries = true)
     Lecture save(Lecture lecture) throws DataAccessException;
 
     @CacheEvict(value = "lectures", allEntries = true)

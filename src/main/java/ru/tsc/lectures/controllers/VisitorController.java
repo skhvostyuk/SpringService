@@ -9,7 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 import ru.tsc.lectures.model.Visitor;
-import ru.tsc.lectures.repository.VisitorRepository;
+import ru.tsc.lectures.service.VisitorService;
 
 import javax.validation.Valid;
 
@@ -17,11 +17,11 @@ import javax.validation.Valid;
 @RequestMapping(value = "api/visitor", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class VisitorController extends BaseController<Visitor> {
     @Autowired
-    private VisitorRepository repository;
+    private VisitorService service;
 
     @GetMapping("/{visitorId}")
     public ResponseEntity<Visitor> getById(@PathVariable("visitorId") int visitorId) {
-        Visitor visitor = repository.findById(visitorId);
+        Visitor visitor = service.findById(visitorId);
         if (visitor == null)
             return new ResponseEntity<Visitor>(HttpStatus.NOT_FOUND);
         return new ResponseEntity<Visitor>(visitor, HttpStatus.OK);
@@ -29,10 +29,10 @@ public class VisitorController extends BaseController<Visitor> {
 
     @DeleteMapping("/{lectureId}")
     public ResponseEntity<Void> deleteById(@PathVariable("lectureId") int lectureId) {
-        Visitor visitor = repository.findById(lectureId);
+        Visitor visitor = service.findById(lectureId);
         if (visitor == null)
             return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
-        repository.delete(visitor);
+        service.delete(visitor);
         return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
     }
 
@@ -40,7 +40,7 @@ public class VisitorController extends BaseController<Visitor> {
     public ResponseEntity<Visitor> addVisitor(@Valid Visitor visitor, BindingResult bindingResult, UriComponentsBuilder ucBuilder) {
         if (bindingResult.hasErrors())
             return errorResponseEntity(bindingResult);
-        repository.save(visitor);
+        service.save(visitor);
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/api/visitor/{id}").buildAndExpand(visitor.getId()).toUri());
         return new ResponseEntity<>(visitor, headers, HttpStatus.CREATED);

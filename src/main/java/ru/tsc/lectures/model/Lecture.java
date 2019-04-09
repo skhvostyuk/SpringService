@@ -7,9 +7,8 @@ import org.springframework.beans.support.PropertyComparator;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Entity
@@ -25,7 +24,7 @@ public class Lecture extends NamedEntity {
 
     @Column(name = "date")
     @DateTimeFormat(pattern = "dd.MM.yyyy hh:mm")
-    private LocalDate date;
+    private LocalDateTime date;
 
     //In minutes
     @Column(name = "duration")
@@ -44,7 +43,7 @@ public class Lecture extends NamedEntity {
     private int price;
 
     public Lecture() {
-        this.date = LocalDate.now();
+        //this.date = LocalDateTime.now();
     }
 
     public void update(Lecture lecture) {
@@ -102,11 +101,11 @@ public class Lecture extends NamedEntity {
         visitor.setLecture(this);
     }
 
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
