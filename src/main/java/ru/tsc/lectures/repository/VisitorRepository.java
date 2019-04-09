@@ -4,6 +4,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.data.repository.Repository;
 import ru.tsc.lectures.model.Visitor;
 
+//
 public interface VisitorRepository extends Repository<Visitor, Integer> {
 
     Visitor findById(int id) throws DataAccessException;

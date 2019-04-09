@@ -15,7 +15,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping(value = "api/visitor", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-public class VisitorController extends Controller{
+public class VisitorController extends BaseController<Visitor> {
     @Autowired
     private VisitorRepository repository;
 
@@ -38,13 +38,10 @@ public class VisitorController extends Controller{
 
     @PostMapping("")
     public ResponseEntity<Visitor> addVisitor(@Valid Visitor visitor, BindingResult bindingResult, UriComponentsBuilder ucBuilder) {
-        HttpHeaders headers;
-        if (bindingResult.hasErrors()) {
-            headers = errorHeaders(bindingResult);
-            return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);
-        }
+        if (bindingResult.hasErrors())
+            return errorResponseEntity(bindingResult);
         repository.save(visitor);
-        headers = new HttpHeaders();
+        HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/api/visitor/{id}").buildAndExpand(visitor.getId()).toUri());
         return new ResponseEntity<>(visitor, headers, HttpStatus.CREATED);
     }

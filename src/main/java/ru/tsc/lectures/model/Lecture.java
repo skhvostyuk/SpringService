@@ -17,7 +17,6 @@ import java.util.*;
 public class Lecture extends NamedEntity {
 
     @Column(name = "lecturer_name")
-    @NotEmpty
     private String lecturerName;
 
     @Column(name = "capacity")
@@ -25,10 +24,10 @@ public class Lecture extends NamedEntity {
     private int capacity;
 
     @Column(name = "date")
-    @NotEmpty
     @DateTimeFormat(pattern = "dd.MM.yyyy hh:mm")
     private LocalDate date;
 
+    //In minutes
     @Column(name = "duration")
     private int duration;
 
@@ -46,6 +45,15 @@ public class Lecture extends NamedEntity {
 
     public Lecture() {
         this.date = LocalDate.now();
+    }
+
+    public void update(Lecture lecture) {
+        setPrice(lecture.getPrice());
+        setLecturerName(lecture.getLecturerName());
+        setDuration(lecture.getDuration());
+        setCapacity(lecture.getCapacity());
+        setDate(lecture.getDate());
+        setLectureHall(lecture.getLectureHall());
     }
 
     public String getLecturerName() {

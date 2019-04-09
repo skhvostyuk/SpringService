@@ -43,7 +43,7 @@ public class LectureHallControllerTest {
         lectureHall.setId(TEST_HALL_ID);
         lectureHall.setName(TEST_HALL_NAME);
         lectureHall.setCapacity(200);
-        lectureHall.setProjector(true);
+        lectureHall.setProjector(1);
         lectureHall.setStartTime(LocalTime.parse("09:00"));
         lectureHall.setEndTime(LocalTime.parse("20:00"));
         lectureHall.setPrice(1000);

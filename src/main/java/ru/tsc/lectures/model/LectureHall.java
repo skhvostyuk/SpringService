@@ -1,5 +1,6 @@
 package ru.tsc.lectures.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -17,7 +18,8 @@ public class LectureHall extends NamedEntity {
     private int capacity;
 
     @Column(name = "projector")
-    private boolean projector;
+    private int projector;
+
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "lectureHall")
     @JsonManagedReference
@@ -34,6 +36,15 @@ public class LectureHall extends NamedEntity {
     @Column(name = "price")
     private int price;
 
+    public void update(LectureHall hall) {
+        setName(hall.getName());
+        setPrice(hall.getPrice());
+        setEndTime(hall.getEndTime());
+        setStartTime(hall.getStartTime());
+        setCapacity(hall.getCapacity());
+        setProjector(hall.getProjector());
+    }
+
     public int getCapacity() {
         return capacity;
     }
@@ -42,11 +53,11 @@ public class LectureHall extends NamedEntity {
         this.capacity = capacity;
     }
 
-    public boolean isProjector() {
+    public int getProjector() {
         return projector;
     }
 
-    public void setProjector(boolean projector) {
+    public void setProjector(int projector) {
         this.projector = projector;
     }
 

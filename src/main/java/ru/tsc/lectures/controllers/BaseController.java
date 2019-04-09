@@ -7,8 +7,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 
-public class Controller {
-    public HttpHeaders errorHeaders(BindingResult bindingResult) {
+import java.util.Collection;
+
+public class BaseController<T> {
+    public ResponseEntity<T> errorResponseEntity(BindingResult bindingResult) {
         HttpHeaders headers = new HttpHeaders();
         ObjectMapper mapper = new ObjectMapper();
         String errors = "";
@@ -18,6 +20,18 @@ public class Controller {
             e.printStackTrace();
         }
         headers.add("errors", errors);
-        return headers;
+        return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);
+    }
+
+    public ResponseEntity<Collection<T>> emptyGetCollectionReview(Collection<T> collection) {
+        if (collection.size() == 0)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(collection, HttpStatus.OK);
+    }
+
+    public ResponseEntity<T> nullGetReview(T t) {
+        if (t == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(t, HttpStatus.OK);
     }
 }
